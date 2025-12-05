@@ -1,0 +1,10 @@
+{
+  "name": "Vital",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/slatyo/valheim-vital",
+  "description": "Core leveling and player data framework for the Slatyo mod ecosystem. Provides server-authoritative XP/leveling system and extensible data storage.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2202",
+    "ValheimModding-Jotunn-2.20.0"
+  ]
+}
