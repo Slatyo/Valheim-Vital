@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using State;
 using Vital.Data;
 
 namespace Vital.Core
@@ -30,12 +31,12 @@ namespace Vital.Core
         /// </summary>
         internal static void Initialize()
         {
-            // Register player level data module
-            VitalDataStore.Register<PlayerLevelData>(MODULE_ID);
+            // Register player level data module with State
+            Store.Register<PlayerLevelData>(MODULE_ID);
             Plugin.Log.LogInfo("Leveling system initialized");
         }
 
-        #region Player Level Storage (Persistent via VitalDataStore)
+        #region Player Level Storage (Persistent via State)
 
         /// <summary>
         /// Get level data for a player.
@@ -43,7 +44,7 @@ namespace Vital.Core
         private static PlayerLevelData GetPlayerData(Player player)
         {
             if (player == null) return null;
-            return VitalDataStore.Get<PlayerLevelData>(player, MODULE_ID);
+            return Store.Get<PlayerLevelData>(player, MODULE_ID);
         }
 
         /// <summary>
@@ -74,7 +75,7 @@ namespace Vital.Core
 
             data.Level = newLevel;
             data.TotalXP = GetCumulativeXP(newLevel); // Sync XP to match level
-            VitalDataStore.MarkDirty(player, MODULE_ID);
+            Store.MarkDirty(player, MODULE_ID);
 
             // Fire event
             try
@@ -112,7 +113,7 @@ namespace Vital.Core
 
             data.TotalXP = Math.Max(0, xp);
             data.Level = GetLevelForXP(data.TotalXP);
-            VitalDataStore.MarkDirty(player, MODULE_ID);
+            Store.MarkDirty(player, MODULE_ID);
         }
 
         /// <summary>
@@ -130,7 +131,7 @@ namespace Vital.Core
             int oldLevel = data.Level;
             data.TotalXP += amount;
             data.Level = GetLevelForXP(data.TotalXP);
-            VitalDataStore.MarkDirty(player, MODULE_ID);
+            Store.MarkDirty(player, MODULE_ID);
 
             if (data.Level != oldLevel)
             {

@@ -1,11 +1,12 @@
 using SimpleJson;
+using State;
 using UnityEngine;
 
 namespace Vital.Data
 {
     /// <summary>
     /// Persistent player level and XP data.
-    /// Stored via VitalDataStore and persists with world saves as JSON.
+    /// Stored via State and persists with world saves as JSON.
     /// </summary>
     public class PlayerLevelData : IPlayerData
     {

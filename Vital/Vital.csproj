@@ -45,6 +45,14 @@
     <VALHEIM_MANAGED>$(VALHEIM_INSTALL)/valheim_Data/Managed</VALHEIM_MANAGED>
   </PropertyGroup>
 
+  <!-- Reference to State (hard dependency) -->
+  <ItemGroup>
+    <Reference Include="State">
+      <HintPath>$(MOD_DEPLOYPATH)\State\State.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
   <!-- Reference to Munin (soft dependency) -->
   <ItemGroup>
     <Reference Include="Munin">

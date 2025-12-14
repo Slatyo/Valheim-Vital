@@ -6,17 +6,17 @@ using HarmonyLib;
 using Jotunn.Utils;
 using Vital.Commands;
 using Vital.Core;
-using Vital.Data;
-using Vital.Network;
 
 namespace Vital
 {
     /// <summary>
-    /// Vital - Core Leveling & Player Data System for Valheim Mod Ecosystem.
-    /// Provides shared leveling, XP formulas, stat scaling, and extensible player data storage.
+    /// Vital - Core Leveling System for Valheim Mod Ecosystem.
+    /// Provides shared leveling, XP formulas, and stat scaling.
+    /// Uses State for player data persistence.
     /// </summary>
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
     [BepInDependency(Jotunn.Main.ModGuid)]
+    [BepInDependency("com.slatyo.state")]
     [BepInDependency("com.slatyo.munin", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.Minor)]
     public class Plugin : BaseUnityPlugin
@@ -43,14 +43,8 @@ namespace Vital
 
             Log.LogInfo($"{PluginName} v{PluginVersion} is loading...");
 
-            // Initialize the leveling system
+            // Initialize the leveling system (registers with State)
             Leveling.Initialize();
-
-            // Initialize the player data store
-            VitalDataStore.Initialize();
-
-            // Initialize network RPCs
-            VitalNetwork.Initialize();
 
             // Initialize Harmony patches
             _harmony = new Harmony(PluginGUID);
@@ -65,7 +59,6 @@ namespace Vital
         private void OnDestroy()
         {
             _harmony?.UnpatchSelf();
-            VitalNetwork.Cleanup();
         }
 
         private void RegisterCommands()
